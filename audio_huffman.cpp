@@ -1,3 +1,4 @@
+#include "file_selector.h"
 #include <iostream>
 #include <sndfile.h> //I had to install an additional package for this to work
 #include <fstream>
@@ -7,46 +8,9 @@
 #include <string>
 #include <cstdio>
 #include <cmath>
+#include <string>
 
 using namespace std;
-
-//this function opens a file dialog box and returns the string indicating the 
-//location of the selected file
-//works on ubuntu linux I don't know about other distros or os
-string open_file() {
-    // Run the zenity command to choose a file
-    FILE* pipe = popen("zenity --file-selection", "r");
-    if (!pipe) {
-        cerr << "Error running zenity" << endl;
-        return "Error";
-    }
-
-    //if the length of the directory is greater than 1024, this will probably fail
-    char buffer[1024];
-    std::string filePath;
-
-    // Read the selected file path from the pipe
-    if (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        // Remove trailing newline character
-        size_t len = strlen(buffer);
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
-        }
-        filePath = buffer;
-    }
-
-    // Close the pipe
-    pclose(pipe);
-
-    // Check if a file path was selected
-    if (filePath.empty()) {
-        cerr << "No file selected" << endl;
-        return "Error";
-    }
-
-    // Now 'filePath' contains the selected file path
-    return filePath;
-}
 
 class sound_file {
     SNDFILE *sndfile; //the file itself
@@ -346,8 +310,9 @@ public:
 };
 
 int main() {
-    string file = open_file(); //opens the open file box
+    char* file = open_file(); //opens the open file box
     sound_file wave(file); //constructs the class / gets the data
+    free(file);
     wave.get_avg_code_length();
     wave.display_waveform();
     return 0;

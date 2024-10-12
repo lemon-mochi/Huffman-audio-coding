@@ -58,8 +58,8 @@ Valgrind reported no memory errors during testing. However, as noted by experts,
 This program has only been tested on **Ubuntu.** Functionality on other operating systems, particularly Windows, is not guaranteed. Many of the shell commands provided were part of the development process, and not all may be necessary for the final version.
 
 ## Future Improvements
-    - Actual compression implementation.
-    - Cross-platform compatibility (including Windows).
-    - Optimization of the Huffman tree and entropy calculations.
+- Actual compression implementation.
+- Cross-platform compatibility (including Windows).
+- Optimization of the Huffman tree and entropy calculations.
 
 
